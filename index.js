@@ -57,8 +57,10 @@ app.post("/submit", async (req, res) => {
   app.delete("/delete/:id", async (req, res) => {
     const id = req.params.id;
     await Book.findOne({ where: { id: id } }).then((book) => {
-      book.destroy();
-      return res.send("");
+        // If delete fails then the UI also does not remove it from the list.
+        // return res.status(500).send({ error: 'oops'});
+        book.destroy();
+        return res.send("");
     });
   });
 
@@ -128,6 +130,7 @@ app.post("/submit", async (req, res) => {
                   </button>
               </td>
           </tr>`);
+
         });
     });
   });
