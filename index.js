@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const sequelize = require("./app/model/dbconfig");
 const Book = require("./app/model/book");
+const signup = require("./app/signup");
 
 // automatically creating table on startup
 sequelize.sync({ force: true }).then(async () => {
@@ -10,6 +11,7 @@ sequelize.sync({ force: true }).then(async () => {
 
 const app = express();
 app.use(express.json());
+app.use(express.static('public'));
 
 // Configuring body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,17 +24,21 @@ app.listen(PORT, () => {
   console.log(`Service endpoint = http://localhost:${PORT}`);
 });
 
+signup.register_routes(app);
+
 // TODO should this be above listen?
 app.get("/", async (req, res) => {
     const books = await Book.findAndCountAll();
     return res.render("index", { books: books.rows });
 });
 
+
 app.post("/submit", async (req, res) => {
     const book = {
       name: req.body.title,
       author: req.body.author,
     };
+    //return res.status(400).send('<p class="error">Bad input</p>');
     await Book.create(book).then((x) => {
       // send id of recently created item
       return res.send(`<tr>
@@ -58,9 +64,9 @@ app.post("/submit", async (req, res) => {
     const id = req.params.id;
     await Book.findOne({ where: { id: id } }).then((book) => {
         // If delete fails then the UI also does not remove it from the list.
-        // return res.status(500).send({ error: 'oops'});
-        book.destroy();
-        return res.send("");
+        return res.status(500).send({ error: 'oops'});
+        // book.destroy();
+        // return res.send("");
     });
   });
 

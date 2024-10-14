@@ -1,0 +1,19 @@
+doctype html 
+html 
+    head
+        title Signup 
+        link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css')
+        link(rel="stylesheet" href="/signup/layout.css")
+        script(src='https://unpkg.com/htmx.org@1.9.12')
+        script(src='https://unpkg.com/htmx.org@1.9.11/dist/ext/response-targets.js')
+
+
+    body 
+    main#main 
+    h1.ui.center.aligned.header Signup UI 
+    .ui.container 
+        block content 
+    
+    block footer 
+        footer 
+            p #{new Date().getFullYear()} Leon Widdershoven standard footer

@@ -4,6 +4,7 @@
     <title>Book Recommendations</title>
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css'>
     <script src='https://unpkg.com/htmx.org@1.9.12'></script> <!-- Ths is the important bit -->
+    <script src='https://unpkg.com/htmx.org@1.9.11/dist/ext/response-targets.js'></script> <!-- extension: proper error handling -->
     
     style.
       body {padding: 20px}
@@ -15,7 +16,7 @@
 
     <body>
     <h1>Book Recommendations</h1>
-    <form hx-post="/submit" hx-swap="beforeend" hx-target="#new-book" class="mb-3">
+    <form hx-post="/submit" hx-swap="beforeend" hx-target="#new-book" hx-target-error="#error" class="mb-3">
         <input type="text" placeholder="Book Title" name="title" class="form-control mb-3">
         <input type="text" placeholder="Book Author" name="author" class="form-control mb-3">
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -42,6 +43,9 @@
         
         </tbody>
     </table>
+
+    <div id="error">#{error}</div>
+
     </body>
 
   </head>
